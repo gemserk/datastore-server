@@ -4,6 +4,7 @@ from google.appengine.ext.webapp import template
 import os
 import cgi
 import json
+import time
 
 class Game(db.Model):
     gameKey = db.StringProperty()
@@ -14,7 +15,7 @@ class Score(db.Model):
     game = db.ReferenceProperty(Game, collection_name="scores")
     tags = db.StringListProperty()
     points = db.IntegerProperty()
-    timestamp = db.TimeProperty(auto_now_add=True)
+    timestamp = db.DateTimeProperty(auto_now_add=True)
     name = db.StringProperty()
     data = db.TextProperty()
     
@@ -108,7 +109,7 @@ class Query(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []
         for score in scores:
-            scoreData = {'id': str(score.key()), 'name': score.name, 'tags':score.tags, 'points':score.points, 'timestamp':score.timestamp.isoformat(), 'data':score.data}
+            scoreData = {'id': str(score.key()), 'name': score.name, 'tags':score.tags, 'points':score.points, 'timestamp':long(time.mktime(score.timestamp.timetuple())*1000), 'data':score.data}
             scoreList.append(scoreData)
         
         self.response.out.write(json.dumps(scoreList))
