@@ -1,0 +1,7 @@
+<html>
+  <body>
+    {% for game in games %}
+      <a href="game?gameKey={{game.gameKey}}">{{game.title}}</a>
+    {% endfor %}
+  </body>
+</html>

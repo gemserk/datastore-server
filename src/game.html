@@ -1,0 +1,27 @@
+<html>
+  <body>
+  	<h1>{{game.title}} - {{game.gameKey}}</h1>
+  	<table>
+  		<thead>
+  			<tr>
+  				<td>Name</td>
+  				<td>TAGS</td>
+  				<td>POINTS</td>
+  				<td>TIMESTAMP</td>
+  				<td>DATA</td>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			{% for score in scores %}
+  				<tr>
+  					<td>{{score.name}}</td>
+  					<td>{{score.tags}}</td>
+  					<td>{{score.points}}</td>
+  					<td>{{score.timestamp}}</td>
+  					<td>{{score.data}}</td>
+  				</tr>
+  			{% endfor %}
+  		</tbody>
+  	</table>
+  </body>
+</html>
