@@ -109,7 +109,8 @@ class Query(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []
         for score in scores:
-            scoreData = {'id': str(score.key()), 'name': score.name, 'tags':score.tags, 'points':score.points, 'timestamp':long(time.mktime(score.timestamp.timetuple())*1000), 'data':score.data}
+            data = json.loads(score.data)
+            scoreData = {'id': str(score.key()), 'name': score.name, 'tags':score.tags, 'points':score.points, 'timestamp':long(time.mktime(score.timestamp.timetuple())*1000), 'data':data}
             scoreList.append(scoreData)
         
         self.response.out.write(json.dumps(scoreList))
