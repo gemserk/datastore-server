@@ -6,8 +6,9 @@ Created on 12/08/2010
 from google.appengine.ext import webapp
 
 import cgi
-import json
 import time
+
+from django.utils import simplejson as json
 
 from com.gemserk.scores.model.game import Game
 
