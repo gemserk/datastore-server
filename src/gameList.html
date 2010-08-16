@@ -3,5 +3,17 @@
     {% for game in games %}
       <a href="game?gameKey={{game.gameKey}}">{{game.title}}</a>
     {% endfor %}
+    
+    <hr />
+    
+    <div>
+        <h3>New Game:</h3>
+	    <form action="newGame" method="post" >
+	    	GameKey: <input type="text" name="gameKey"><br />
+	    	Title: <input type="text" name="title"><br />
+	    	<input type="submit" name="Submit" value="Submit">
+	    </form>
+    </div>
+    	
   </body>
 </html>

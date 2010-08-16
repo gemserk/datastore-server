@@ -10,6 +10,7 @@ from com.gemserk.scores.model.score import Score
 
 from com.gemserk.scores.handlers.submit import SubmitScore
 from com.gemserk.scores.handlers.query import Query
+from com.gemserk.scores.handlers.newgame import NewGame
 
 class MainPage(webapp.RequestHandler):
     
@@ -37,7 +38,7 @@ class ShowGame(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'game.html')
         self.response.headers['Content-Type'] = 'text/html'
         self.response.out.write(template.render(path, template_values))
-      
+     
 class InitDB(webapp.RequestHandler):
     
     def get(self):
@@ -56,7 +57,12 @@ class InitDB(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'        
         self.response.out.write("OK") 
 
-application = webapp.WSGIApplication([('/', MainPage), ('/init', InitDB),("/game",ShowGame), ("/submit",SubmitScore),("/scores",Query)], debug=True)
+application = webapp.WSGIApplication([('/', MainPage), 
+                                      ('/init', InitDB),
+                                      ("/game",ShowGame), 
+                                      ("/submit",SubmitScore),
+                                      ("/scores",Query),
+                                      ("/newGame",NewGame)], debug=True)
 
 def main():
     run_wsgi_app(application)
