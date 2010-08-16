@@ -1,11 +1,24 @@
 <html>
   <body>
+  
+  	<div style="float: right;">
+  		{% if user %}
+  			<a href="{{signOutUrl}}">Sign out</a>
+  		{% else %}
+  			<a href="{{signInUrl}}">Sign in</a>
+  		{% endif %}
+  	</div>
+  
+  	<br clear="both" />
+    <hr />
+  
     {% for game in games %}
-      <a href="game?gameKey={{game.gameKey}}">{{game.title}}</a>
+      <a href="game?gameKey={{game.gameKey}}">{{game.title}}</a> - {{game.gameKey}} <br />
     {% endfor %}
     
     <hr />
     
+    {% if admin %}
     <div>
         <h3>New Game:</h3>
 	    <form action="newGame" method="post" >
@@ -14,6 +27,7 @@
 	    	<input type="submit" name="Submit" value="Submit">
 	    </form>
     </div>
+    {% endif %}
     	
   </body>
 </html>

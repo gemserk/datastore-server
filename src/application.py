@@ -12,6 +12,8 @@ from com.gemserk.scores.handlers.submit import SubmitScore
 from com.gemserk.scores.handlers.query import Query
 from com.gemserk.scores.handlers.newgame import NewGame
 
+from google.appengine.api import users
+
 class MainPage(webapp.RequestHandler):
     
     def get(self):
@@ -20,7 +22,12 @@ class MainPage(webapp.RequestHandler):
         for game in Game.all():
             games.append(game)
       
-        template_values = {'games':games}
+        isAdmin = users.is_current_user_admin()
+      
+        template_values = {'games':games, 'admin':isAdmin, 
+                           'user':users.get_current_user(), 
+                           'signInUrl':users.create_login_url('/'),
+                           'signOutUrl':users.create_logout_url('/')}
 
         path = os.path.join(os.path.dirname(__file__), 'gameList.html')
         self.response.headers['Content-Type'] = 'text/html'

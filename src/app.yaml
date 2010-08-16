@@ -4,5 +4,10 @@ runtime: python
 api_version: 1
 
 handlers:
+
+- url: /newGame
+  login: admin
+  script: application.py
+
 - url: /.*
   script: application.py
