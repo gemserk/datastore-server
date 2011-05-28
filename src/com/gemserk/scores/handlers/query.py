@@ -36,20 +36,26 @@ class Query(webapp.RequestHandler):
             
         sortedScores = filteredScores.order(order)
         scores = sortedScores.fetch(limit)
-        
-        '''        
+                
+        # TODO: make it work with private_id instead user name         
         scores_distinct_names = []
         scores_distinct = []
         
-        for score in scores:
-            if score.name not in scores_distinct_names:
-                scores_distinct.append(score)
-                scores_distinct_names.append(score.name)
-        '''
+        offset = 0
+        
+        while len(scores_distinct) < limit:
+            for score in scores:
+                if score.name not in scores_distinct_names:
+                    scores_distinct.append(score)
+                    scores_distinct_names.append(score.name)
+            offset += limit
+            scores = sortedScores.fetch(limit, offset)
+            if (len(scores) == 0) :
+                break
         
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []
-        for score in scores:
+        for score in scores_distinct:
             data = json.loads(score.data)
             scoreData = {'id': str(score.key()), 'name': score.name, 'tags':score.tags, 'points':score.points, 'timestamp':long(time.mktime(score.timestamp.timetuple())*1000), 'data':data}
             scoreList.append(scoreData)
