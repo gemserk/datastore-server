@@ -22,8 +22,7 @@ class Query(webapp.RequestHandler):
             self.response.set_status(500,message="Can't find game with key " + gameKey)
             return
         
-        tags = self.request.get_all('tag')
-        
+        tags = self.request.get_all('tag')        
         limit = self.request.get_range('limit')
         ascending = self.request.get('ascending')
         if(ascending == "true"):
@@ -37,6 +36,16 @@ class Query(webapp.RequestHandler):
             
         sortedScores = filteredScores.order(order)
         scores = sortedScores.fetch(limit)
+        
+        '''        
+        scores_distinct_names = []
+        scores_distinct = []
+        
+        for score in scores:
+            if score.name not in scores_distinct_names:
+                scores_distinct.append(score)
+                scores_distinct_names.append(score.name)
+        '''
         
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []

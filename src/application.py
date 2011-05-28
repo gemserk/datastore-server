@@ -55,6 +55,7 @@ class InitDB(webapp.RequestHandler):
         newGame.put()
         
         score = Score()
+        score.data = "[]"
         score.game = newGame
         score.tags = ["hard", "level1"]
         score.points = 10000
