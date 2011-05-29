@@ -42,10 +42,9 @@ class Query(webapp.RequestHandler):
         scores_distinct = []
         
         offset = 0
-        
         while len(scores_distinct) < limit:
             for score in scores:
-                if score.name not in scores_distinct_names:
+                if score.name not in scores_distinct_names and len(scores_distinct) < limit:
                     scores_distinct.append(score)
                     scores_distinct_names.append(score.name)
             offset += limit
