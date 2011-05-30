@@ -1,8 +1,13 @@
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+
+from google.appengine.dist import use_library
+use_library('django', '1.2')
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 
-import os
 import cgi
 
 from com.gemserk.scores.model.game import Game
@@ -13,6 +18,7 @@ from com.gemserk.scores.handlers.query import Query
 from com.gemserk.scores.handlers.newgame import NewGame
 
 from google.appengine.api import users
+
 
 class MainPage(webapp.RequestHandler):
     
