@@ -1,0 +1,21 @@
+<html>
+  <body>
+  	<div style="float: right;">
+  		{% if user %}
+  			<a href="{{signOutUrl}}">Sign out</a>
+  		{% else %}
+  			<a href="{{signInUrl}}">Sign in</a>
+  		{% endif %}
+  	</div>
+  
+  	<br clear="both" />
+    <hr />
+  
+    {% for profile in profiles %}
+      {{profile.name}} - {{profile.guest}} <br />
+    {% endfor %}
+    
+    <hr />
+    	
+  </body>
+</html>

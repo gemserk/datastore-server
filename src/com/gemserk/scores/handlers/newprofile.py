@@ -14,7 +14,7 @@ class NewProfile(webapp.RequestHandler):
      
     def post(self):
 
-        number = (1000000 + random.random() * 8999999)
+        number = (10000 + random.random() * 89999)
         
         profile = Profile()
         profile.name = "guest-%d" % number;
