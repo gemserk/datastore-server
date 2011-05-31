@@ -15,3 +15,4 @@ class Score(db.Model):
     timestamp = db.DateTimeProperty(auto_now_add=True)
     name = db.StringProperty()
     data = db.TextProperty()
+    # profilePublicKey = db.StringProperty()
