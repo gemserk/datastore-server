@@ -37,16 +37,17 @@ class Query(webapp.RequestHandler):
         sortedScores = filteredScores.order(order)
         scores = sortedScores.fetch(limit)
                 
-        # TODO: make it work with private_id instead user name         
         scores_distinct_names = []
         scores_distinct = []
         
         offset = 0
         while len(scores_distinct) < limit:
             for score in scores:
-                if score.name not in scores_distinct_names and len(scores_distinct) < limit:
+                # if public key defined, then it is used to filter distinct entries         
+                unique_id = score.profilePublicKey if (score.profilePublicKey != None) else score.name 
+                if unique_id not in scores_distinct_names and len(scores_distinct) < limit:
                     scores_distinct.append(score)
-                    scores_distinct_names.append(score.name)
+                    scores_distinct_names.append(unique_id)
             offset += limit
             scores = sortedScores.fetch(limit, offset)
             if (len(scores) == 0) :
