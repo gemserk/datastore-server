@@ -27,6 +27,11 @@ class SubmitScore(webapp.RequestHandler):
         score.tags = self.request.get_all('tag')
         score.points = self.request.get_range('points')
         score.data = cgi.escape(self.request.get('data'))
+        profilePublicKey = self.request.get('profilePublicKey', None)
+        if (profilePublicKey == None):
+            score.profilePublicKey = None
+        else:
+            score.profilePublicKey = cgi.escape(profilePublicKey)
         score.game = game
         score.put()
         

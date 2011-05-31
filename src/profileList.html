@@ -12,7 +12,11 @@
     <hr />
   
     {% for profile in profiles %}
-      {{profile.name}} - {{profile.guest}} <br />
+      {% if admin %}
+            {{profile.privateKey}} - 
+      {% endif %}
+      {{profile.publicKey}} - {{profile.name}} - {{profile.guest}} 
+      <br />
     {% endfor %}
     
     <hr />

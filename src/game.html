@@ -5,6 +5,7 @@
   		<thead>
   			<tr>
   				<td>Name</td>
+  				<td>PublicProfileKey</td>
   				<td>TAGS</td>
   				<td>POINTS</td>
   				<td>TIMESTAMP</td>
@@ -15,6 +16,7 @@
   			{% for score in scores %}
   				<tr>
   					<td>{{score.name}}</td>
+  					<td>{{score.profilePublicKey}}</td>
   					<td>{{score.tags}}</td>
   					<td>{{score.points}}</td>
   					<td>{{score.timestamp}}</td>
@@ -25,3 +27,4 @@
   	</table>
   </body>
 </html>
+
