@@ -16,6 +16,7 @@ from com.gemserk.scores.model.score import Score
 from com.gemserk.scores.handlers.submit import SubmitScore
 from com.gemserk.scores.handlers.query import Query
 from com.gemserk.scores.handlers.newgame import NewGame
+from com.gemserk.scores.handlers.newprofile import NewProfile
 
 from google.appengine.api import users
 
@@ -76,7 +77,8 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ("/game",ShowGame), 
                                       ("/submit",SubmitScore),
                                       ("/scores",Query),
-                                      ("/newGame",NewGame)], debug=True)
+                                      ("/newGame",NewGame),
+                                      ("/newProfile", NewProfile)], debug=True)
 
 def main():
     run_wsgi_app(application)
