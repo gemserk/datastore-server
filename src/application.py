@@ -17,6 +17,7 @@ from com.gemserk.scores.handlers.submit import SubmitScore
 from com.gemserk.scores.handlers.query import Query
 from com.gemserk.scores.handlers.newgame import NewGame
 from com.gemserk.scores.handlers.newprofile import NewProfile
+from com.gemserk.scores.model.profile import Profile
 
 from google.appengine.api import users
 
@@ -72,9 +73,30 @@ class InitDB(webapp.RequestHandler):
         self.response.headers['Content-Type'] = 'text/plain'        
         self.response.out.write("OK") 
 
+
+class ProfileList(webapp.RequestHandler):
+    
+    def get(self):
+        profiles = list()
+        
+        for profile in Profile.all():
+            profiles.append(profile)
+      
+        isAdmin = users.is_current_user_admin()
+      
+        template_values = {'profiles':profiles, 'admin':isAdmin, 
+                           'user':users.get_current_user(), 
+                           'signInUrl':users.create_login_url('/'),
+                           'signOutUrl':users.create_logout_url('/')}
+
+        path = os.path.join(os.path.dirname(__file__), 'profileList.html')
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.out.write(template.render(path, template_values))
+        
 application = webapp.WSGIApplication([('/', MainPage), 
                                       ('/init', InitDB),
-                                      ("/game",ShowGame), 
+                                      ("/game",ShowGame),
+                                      ("/profiles",ProfileList),  
                                       ("/submit",SubmitScore),
                                       ("/scores",Query),
                                       ("/newGame",NewGame),
