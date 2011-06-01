@@ -35,7 +35,9 @@ class UpdateProfile(webapp.RequestHandler):
         
         profile.put()
         
-        scores = Score.all().filter("profilePublicKey =", profile.publicKey)
+        scores = Score.all()
+        scores = scores.filter("profilePublicKey =", profile.publicKey)
+        
         for score in scores:
             score.name = profile.name
             score.put()

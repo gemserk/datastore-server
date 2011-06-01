@@ -33,3 +33,7 @@ indexes:
   - name: tags
   - name: tags
   - name: points
+
+- kind: Score
+  properties:
+  - name: profilePublicKey
