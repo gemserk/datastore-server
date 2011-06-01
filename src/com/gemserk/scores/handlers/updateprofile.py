@@ -8,6 +8,7 @@ from google.appengine.ext import webapp
 from com.gemserk.scores.model.profile import Profile
 
 import cgi
+import json
 
 class UpdateProfile(webapp.RequestHandler):  
    
@@ -32,7 +33,9 @@ class UpdateProfile(webapp.RequestHandler):
         profile.name = cgi.escape(self.request.get('name'))
         
         profile.put()
-              
+        
+        profileData = {'privateKey': profile.privateKey, 'publicKey': profile.publicKey, 'name':profile.name, 'guest': profile.guest }
+        
         self.response.headers['Content-Type'] = 'text/plain'
-        self.response.out.write("OK")
+        self.response.out.write(json.dumps(profileData))
 
