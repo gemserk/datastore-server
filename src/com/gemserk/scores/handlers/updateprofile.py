@@ -6,6 +6,7 @@ Created on 12/08/2010
 from google.appengine.ext import webapp
 
 from com.gemserk.scores.model.profile import Profile
+from com.gemserk.scores.model.score import Score
 
 import cgi
 import json
@@ -33,6 +34,11 @@ class UpdateProfile(webapp.RequestHandler):
         profile.name = cgi.escape(self.request.get('name'))
         
         profile.put()
+        
+        scores = Score.all().filter("profilePublicKey =", profile.publicKey)
+        for score in scores:
+            score.name = profile.name
+            score.put()
         
         profileData = {'privateKey': profile.privateKey, 'publicKey': profile.publicKey, 'name':profile.name, 'guest': profile.guest }
         
