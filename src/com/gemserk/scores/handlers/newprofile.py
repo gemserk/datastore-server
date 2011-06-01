@@ -9,7 +9,8 @@ from com.gemserk.scores.model.profile import Profile
 
 import uuid
 import cgi
-import json
+
+from django.utils import simplejson as json
 
 class NewProfile(webapp.RequestHandler):  
     def get(self):

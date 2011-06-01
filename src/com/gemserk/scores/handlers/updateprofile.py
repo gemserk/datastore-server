@@ -9,7 +9,8 @@ from com.gemserk.scores.model.profile import Profile
 from com.gemserk.scores.model.score import Score
 
 import cgi
-import json
+
+from django.utils import simplejson as json
 
 class UpdateProfile(webapp.RequestHandler):  
    

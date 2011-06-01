@@ -22,7 +22,6 @@ from com.gemserk.scores.model.profile import Profile
 
 from google.appengine.api import users
 
-
 class MainPage(webapp.RequestHandler):
     
     def get(self):
