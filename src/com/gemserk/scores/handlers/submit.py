@@ -9,6 +9,7 @@ import cgi
 
 from com.gemserk.scores.model.game import Game
 from com.gemserk.scores.model.score import Score
+from com.gemserk.scores.model.profile import Profile
 
 class SubmitScore(webapp.RequestHandler):  
     def get(self):
@@ -27,11 +28,23 @@ class SubmitScore(webapp.RequestHandler):
         score.tags = self.request.get_all('tag')
         score.points = self.request.get_range('points')
         score.data = cgi.escape(self.request.get('data'))
-        profilePublicKey = self.request.get('profilePublicKey', None)
-        if (profilePublicKey == None):
-            score.profilePublicKey = None
-        else:
-            score.profilePublicKey = cgi.escape(profilePublicKey)
+        score.profilePublicKey = None
+        
+        profilePrivateKey = self.request.get('profilePrivateKey', None)
+
+        
+        if (profilePrivateKey <> None):
+            profilePrivateKey = cgi.escape(profilePrivateKey)
+            profile = Profile.all().filter("privateKey =", profilePrivateKey).get()
+            # if profile found
+            if (profile <> None):
+                score.profilePublicKey = profile.publicKey
+                score.name = profile.name
+            else:
+                self.response.set_status(500,message="Can't find profile to submit score")
+                return
+                
+            
         score.game = game
         score.put()
         
