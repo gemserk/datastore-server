@@ -11,3 +11,4 @@ class Profile(db.Model):
     publicKey = db.StringProperty()
     name = db.StringProperty()
     guest = db.BooleanProperty()
+    lastAccess = db.DateTimeProperty()

@@ -11,6 +11,7 @@ import uuid
 import cgi
 
 from django.utils import simplejson as json
+import datetime
 
 class NewProfile(webapp.RequestHandler):  
     def get(self):
@@ -21,6 +22,7 @@ class NewProfile(webapp.RequestHandler):
         
         profile.privateKey = str(uuid.uuid4())
         profile.publicKey = str(uuid.uuid4())
+        profile.lastAccess = datetime.datetime.now()
         profile.name = cgi.escape(self.request.get('name'))
         
         has_guest = self.request.get('guest', 0)

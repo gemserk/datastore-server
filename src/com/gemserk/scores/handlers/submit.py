@@ -10,6 +10,7 @@ import cgi
 from com.gemserk.scores.model.game import Game
 from com.gemserk.scores.model.score import Score
 from com.gemserk.scores.model.profile import Profile
+import datetime
 
 class SubmitScore(webapp.RequestHandler):  
     def get(self):
@@ -36,10 +37,13 @@ class SubmitScore(webapp.RequestHandler):
         if (profilePrivateKey <> None):
             profilePrivateKey = cgi.escape(profilePrivateKey)
             profile = Profile.all().filter("privateKey =", profilePrivateKey).get()
-            # if profile found
+
             if (profile <> None):
                 score.profilePublicKey = profile.publicKey
                 score.name = profile.name
+                # update profile last access time
+                profile.lastAccess = datetime.datetime.now()
+                profile.put()
             else:
                 self.response.set_status(500,message="Can't find profile to submit score")
                 return

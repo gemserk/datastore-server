@@ -11,6 +11,7 @@ from com.gemserk.scores.model.score import Score
 import cgi
 
 from django.utils import simplejson as json
+import datetime
 
 class UpdateProfile(webapp.RequestHandler):  
    
@@ -33,6 +34,7 @@ class UpdateProfile(webapp.RequestHandler):
         
         profile.guest = False
         profile.name = cgi.escape(self.request.get('name'))
+        profile.lastAccess = datetime.datetime.now()
         
         profile.put()
         
