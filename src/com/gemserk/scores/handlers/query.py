@@ -12,6 +12,8 @@ from django.utils import simplejson as json
 
 from com.gemserk.scores.model.game import Game
 
+from  com.gemserk.scores.utils import dateutils
+
 class Query(webapp.RequestHandler):  
     
     def get(self):
@@ -33,6 +35,13 @@ class Query(webapp.RequestHandler):
         filteredScores = game.scores
         for tag in tags:
             filteredScores = filteredScores.filter("tags =", tag)
+            
+        range = self.request.get_all('range')
+
+        if (range == "day" or range == "week" or range == "month"):
+            begin, end = dateutils.get_datetime_range(range)
+            filteredScores.filter("timestamp >", begin)
+            filteredScores.filter("timestamp <", end)
             
         sortedScores = filteredScores.order(order)
         scores = sortedScores.fetch(limit)
