@@ -16,3 +16,8 @@ class Score(db.Model):
     name = db.StringProperty()
     data = db.TextProperty()
     profilePublicKey = db.StringProperty()
+    # used for filtering
+    year = db.IntegerProperty()
+    month = db.IntegerProperty()
+    week = db.IntegerProperty()
+    day = db.IntegerProperty()

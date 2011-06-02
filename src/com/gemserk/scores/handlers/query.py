@@ -13,37 +13,45 @@ from django.utils import simplejson as json
 from com.gemserk.scores.model.game import Game
 
 from  com.gemserk.scores.utils import dateutils
+import datetime
 
 class Query(webapp.RequestHandler):  
     
     def get(self):
         gameKey = cgi.escape(self.request.get('gameKey'))
-        game = Game.all().filter("gameKey =", gameKey ).get()
+        game = Game.all().filter("gameKey =", gameKey).get()
         
         if(not game):
-            self.response.set_status(500,message="Can't find game with key " + gameKey)
+            self.response.set_status(500, message="Can't find game with key " + gameKey)
             return
         
+        range = self.request.get('range')
         tags = self.request.get_all('tag')        
         limit = self.request.get_range('limit')
         ascending = self.request.get('ascending')
         if(ascending == "true"):
             order = "points"
         else:
-            order =  "-points"
+            order = "-points"
             
         filteredScores = game.scores
+        
+        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+        
+        if (range == "day"):
+            filteredScores.filter("day =", day)
+
+        if (range == "week"):
+            filteredScores.filter("week =", week)
+
+        if (range == "month"):
+            filteredScores.filter("month =", month)
+            
         for tag in tags:
             filteredScores = filteredScores.filter("tags =", tag)
-            
-        range = self.request.get_all('range')
 
-        if (range == "day" or range == "week" or range == "month"):
-            begin, end = dateutils.get_datetime_range(range)
-            filteredScores.filter("timestamp >", begin)
-            filteredScores.filter("timestamp <", end)
-            
         sortedScores = filteredScores.order(order)
+            
         scores = sortedScores.fetch(limit)
                 
         scores_distinct_names = []

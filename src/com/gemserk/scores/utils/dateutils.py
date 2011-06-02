@@ -35,3 +35,13 @@ def get_datetime_range(type):
 
     return today, today
 
+# returns yeer, month of the year, week of the year, day of the year
+def get_datetime_data(timestamp):
+    
+    year = timestamp.year
+    month = timestamp.month
+    week = timestamp.isocalendar()[1]
+    day = timestamp.timetuple().tm_yday
+    
+    return year, month, week, day
+

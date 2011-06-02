@@ -11,6 +11,7 @@ from com.gemserk.scores.model.game import Game
 from com.gemserk.scores.model.score import Score
 from com.gemserk.scores.model.profile import Profile
 import datetime
+from com.gemserk.scores.utils import dateutils
 
 class SubmitScore(webapp.RequestHandler):  
     def get(self):
@@ -47,7 +48,8 @@ class SubmitScore(webapp.RequestHandler):
             else:
                 self.response.set_status(500,message="Can't find profile to submit score")
                 return
-                
+            
+        score.year, score.month, score.week, score.day = dateutils.get_datetime_data(datetime.datetime.now())
             
         score.game = game
         score.put()

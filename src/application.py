@@ -1,4 +1,5 @@
 import os
+import datetime
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 from google.appengine.dist import use_library
@@ -19,6 +20,8 @@ from com.gemserk.scores.handlers.newgame import NewGame
 from com.gemserk.scores.handlers.newprofile import NewProfile
 from com.gemserk.scores.handlers.updateprofile import UpdateProfile
 from com.gemserk.scores.model.profile import Profile
+
+from com.gemserk.scores.utils import dateutils
 
 from google.appengine.api import users
 
@@ -45,8 +48,24 @@ class ShowGame(webapp.RequestHandler):
     
     def get(self):
         gameKey = cgi.escape(self.request.get('gameKey'))
+        range = self.request.get('range')
+        
         game = Game.all().filter("gameKey =", gameKey ).get()
-        scores = game.scores.order('-points').fetch(1000)
+        scores = game.scores
+        
+        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+        
+        if (range == "day"):
+            scores.filter("day =", day)
+
+        if (range == "week"):
+            scores.filter("week =", week)
+
+        if (range == "month"):
+            scores.filter("month =", month)
+        
+        scores = scores.order('-points')
+        scores = scores.fetch(1000)
         
         template_values = {'game':game, 'scores':scores}
 
@@ -56,19 +75,30 @@ class ShowGame(webapp.RequestHandler):
      
 class InitDB(webapp.RequestHandler):
     
+    def score(self, game, name, tags, points, datetime):
+        score = Score()
+        score.game = game
+        score.name = name
+        score.points = points
+        score.tags = tags
+        score.data = "{}"
+        score.timestamp = datetime
+        score.year, score.month, score.week, score.day = dateutils.get_datetime_data(datetime.datetime.now())
+        score.put()
+        return score
+    
     def get(self):
         newGame = Game()
         newGame.title = "test1"
         newGame.gameKey = "dsadfasfdsfaasd"
         newGame.put()
         
-        score = Score()
-        score.data = "{}"
-        score.game = newGame
-        score.tags = ["hard", "level1"]
-        score.points = 10000
-        score.name = "jtester"
-        score.put()
+        self.score(newGame, "lastmonth-12341", ["hard"], 10000, datetime.datetime.today() - datetime.timedelta(days=40))
+        self.score(newGame, "lastweek-15341", ["hard"], 15000, datetime.datetime.today() - datetime.timedelta(days=8))
+        self.score(newGame, "yesterday-17341", ["hard"], 5000, datetime.datetime.today() - datetime.timedelta(days=2))
+        self.score(newGame, "yesterday-17341", ["hard"], 7500, datetime.datetime.today() - datetime.timedelta(days=2))
+        self.score(newGame, "yesterday-17341", ["hard"], 6500, datetime.datetime.today() - datetime.timedelta(days=1))
+        self.score(newGame, "today-17341", ["hard"], 3500, datetime.datetime.today())
         
         self.response.headers['Content-Type'] = 'text/plain'        
         self.response.out.write("OK") 
@@ -92,6 +122,25 @@ class ProfileList(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'profileList.html')
         self.response.headers['Content-Type'] = 'text/html'
         self.response.out.write(template.render(path, template_values))
+   
+class GenerateDateDateForScores(webapp.RequestHandler):
+    
+    def get(self):
+
+        isAdmin = users.is_current_user_admin()
+        
+        if (not isAdmin):
+            self.response.set_status(403, message="only admin can generate data for scores")
+            return
+        
+        scores = Score.all()
+        
+        for score in scores:
+            score.year, score.month, score.week, score.day = dateutils.get_datetime_data(score.timestamp)
+            score.put()
+      
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.out.write("OK")   
         
 application = webapp.WSGIApplication([('/', MainPage), 
                                       ('/init', InitDB),
@@ -102,6 +151,7 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ("/newGame",NewGame),
                                       ("/newProfile", NewProfile),
                                       ("/updateProfile", UpdateProfile),
+                                      ("/updateScores", GenerateDateDateForScores),
                                       ], debug=True)
 
 def main():
