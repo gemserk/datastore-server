@@ -29,12 +29,15 @@ class Query(webapp.RequestHandler):
         limit = self.request.get_range('limit')
         ascending = self.request.get('ascending')
         
+        distinct  = self.request.get('distinct', "true")
+        distinct = False if distinct == "false" else True 
+                
         if(ascending == "true"):
             order = "points"
         else:
             order = "-points"
             
-        scores = scoreDao.get_scores(game, range, tags, order, limit)
+        scores = scoreDao.get_scores(game, range, tags, order, limit, distinct)
 
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []

@@ -25,7 +25,7 @@ class Score(db.Model):
     week = db.IntegerProperty()
     day = db.IntegerProperty()
     
-def get_scores(game, range, tags, order, limit):
+def get_scores(game, range, tags, order, limit, distinct=True):
     scoresQuery = game.scores
     
     year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
@@ -48,7 +48,10 @@ def get_scores(game, range, tags, order, limit):
     scoresQuery = scoresQuery.order(order)
     
     scores = scoresQuery.fetch(limit)
-                
+    
+    if (not distinct):
+        return scores
+    
     scores_distinct_names = []
     scores_distinct = []
         

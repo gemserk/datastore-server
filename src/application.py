@@ -1,5 +1,4 @@
 import os
-import datetime
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 from google.appengine.dist import use_library
@@ -10,6 +9,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 
 import cgi
+import datetime
 
 from com.gemserk.scores.model.game import Game
 from com.gemserk.scores.model.score import Score
@@ -57,9 +57,12 @@ class ShowGame(webapp.RequestHandler):
         tags = self.request.get_all('tag')        
         limit = self.request.get_range('limit', 1000)
         
+        distinct  = self.request.get('distinct', "true")
+        distinct = False if distinct == "false" else True 
+        
         # scores = game.scores
         
-        scores = scoreDao.get_scores(game, range, tags, "-points", limit)
+        scores = scoreDao.get_scores(game, range, tags, "-points", limit, distinct)
         
         template_values = {'game':game, 'scores':scores}
 
@@ -77,7 +80,7 @@ class InitDB(webapp.RequestHandler):
         score.tags = tags
         score.data = "{}"
         score.timestamp = datetime
-        score.year, score.month, score.week, score.day = dateutils.get_datetime_data(datetime.datetime.now())
+        score.year, score.month, score.week, score.day = dateutils.get_datetime_data(score.timestamp)
         score.put()
         return score
     
@@ -89,9 +92,9 @@ class InitDB(webapp.RequestHandler):
         
         self.score(newGame, "lastmonth-12341", ["hard"], 10000, datetime.datetime.today() - datetime.timedelta(days=40))
         self.score(newGame, "lastweek-15341", ["hard"], 15000, datetime.datetime.today() - datetime.timedelta(days=8))
-        self.score(newGame, "yesterday-17341", ["hard"], 5000, datetime.datetime.today() - datetime.timedelta(days=2))
+        self.score(newGame, "yesterday-17341", [], 5000, datetime.datetime.today() - datetime.timedelta(days=2))
         self.score(newGame, "yesterday-17341", ["hard"], 7500, datetime.datetime.today() - datetime.timedelta(days=2))
-        self.score(newGame, "yesterday-17341", ["hard"], 6500, datetime.datetime.today() - datetime.timedelta(days=1))
+        self.score(newGame, "yesterday-17341", [], 6500, datetime.datetime.today() - datetime.timedelta(days=1))
         self.score(newGame, "today-17341", ["hard"], 3500, datetime.datetime.today())
         
         self.response.headers['Content-Type'] = 'text/plain'        

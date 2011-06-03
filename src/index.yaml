@@ -75,6 +75,13 @@ indexes:
   properties:
   - name: game
   - name: tags
+  - name: points
+    direction: desc
+
+- kind: Score
+  properties:
+  - name: game
+  - name: tags
   - name: tags
   - name: points
 
