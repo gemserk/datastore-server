@@ -121,12 +121,6 @@ class GenerateDateDateForScores(webapp.RequestHandler):
     
     def get(self):
 
-        isAdmin = users.is_current_user_admin()
-        
-        if (not isAdmin):
-            self.response.set_status(403, message="only admin can generate data for scores")
-            return
-        
         scores = Score.all()
         
         for score in scores:

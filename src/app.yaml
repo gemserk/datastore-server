@@ -1,11 +1,15 @@
 application: gemserkscores
-version: 4-snapshot
+version: 4
 runtime: python
 api_version: 1
 
 handlers:
 
 - url: /newGame
+  login: admin
+  script: application.py
+
+- url: /updateScores
   login: admin
   script: application.py
 
