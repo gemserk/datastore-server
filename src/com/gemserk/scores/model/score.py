@@ -30,6 +30,8 @@ def get_scores(game, range, tags, order, limit):
     
     year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
     
+    scoresQuery.filter("year =", year)
+    
     if (range == "day"):
         scoresQuery.filter("day =", day)
 

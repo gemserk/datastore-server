@@ -60,3 +60,9 @@ indexes:
   - name: week
   - name: points
     direction: desc
+
+- kind: Score
+  properties:
+  - name: game
+  - name: year
+  - name: points
