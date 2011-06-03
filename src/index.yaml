@@ -19,6 +19,13 @@ indexes:
 
 - kind: Score
   properties:
+  - name: day
+  - name: game
+  - name: year
+  - name: points
+
+- kind: Score
+  properties:
   - name: game
   - name: month
   - name: points
@@ -27,6 +34,13 @@ indexes:
 - kind: Score
   properties:
   - name: game
+  - name: month
+  - name: year
+  - name: points
+
+- kind: Score
+  properties:
+  - name: game
   - name: points
 
 - kind: Score
@@ -60,6 +74,13 @@ indexes:
   - name: week
   - name: points
     direction: desc
+
+- kind: Score
+  properties:
+  - name: game
+  - name: week
+  - name: year
+  - name: points
 
 - kind: Score
   properties:
