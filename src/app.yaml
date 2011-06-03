@@ -1,5 +1,5 @@
 application: gemserkscores
-version: 4
+version: 5-snapshot
 runtime: python
 api_version: 1
 
