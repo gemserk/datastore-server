@@ -59,7 +59,7 @@ class ShowGame(webapp.RequestHandler):
         
         # scores = game.scores
         
-        scores = scoreDao.get_scores(game, range, tags, "points", limit)
+        scores = scoreDao.get_scores(game, range, tags, "-points", limit)
         
         template_values = {'game':game, 'scores':scores}
 
