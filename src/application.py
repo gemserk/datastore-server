@@ -23,6 +23,8 @@ from com.gemserk.scores.model.profile import Profile
 
 from com.gemserk.scores.utils import dateutils
 
+from com.gemserk.scores.model import score as scoreDao
+
 from google.appengine.api import users
 
 class MainPage(webapp.RequestHandler):
@@ -51,21 +53,13 @@ class ShowGame(webapp.RequestHandler):
         range = self.request.get('range')
         
         game = Game.all().filter("gameKey =", gameKey ).get()
-        scores = game.scores
         
-        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+        tags = self.request.get_all('tag')        
+        limit = self.request.get_range('limit', 1000)
         
-        if (range == "day"):
-            scores.filter("day =", day)
-
-        if (range == "week"):
-            scores.filter("week =", week)
-
-        if (range == "month"):
-            scores.filter("month =", month)
+        # scores = game.scores
         
-        scores = scores.order('-points')
-        scores = scores.fetch(1000)
+        scores = scoreDao.get_scores(game, range, tags, "points", limit)
         
         template_values = {'game':game, 'scores':scores}
 

@@ -12,47 +12,7 @@ from django.utils import simplejson as json
 
 from com.gemserk.scores.model.game import Game
 
-from  com.gemserk.scores.utils import dateutils
-import datetime
-
-def get_scores(game, range, tags, order, limit):
-    scoresQuery = game.scores
-    
-    year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
-    
-    if (range == "day"):
-        scoresQuery.filter("day =", day)
-
-    if (range == "week"):
-        scoresQuery.filter("week =", week)
-
-    if (range == "month"):
-        scoresQuery.filter("month =", month)
-        
-    for tag in tags:
-        scoresQuery.filter("tags =", tag)
-        
-    scoresQuery = scoresQuery.order(order)
-    
-    scores = scoresQuery.fetch(limit)
-                
-    scores_distinct_names = []
-    scores_distinct = []
-        
-    offset = 0
-    while len(scores_distinct) < limit:
-        for score in scores:
-            # if public key defined, then it is used to filter distinct entries         
-            unique_id = score.profilePublicKey if (score.profilePublicKey != None) else score.name 
-            if unique_id not in scores_distinct_names and len(scores_distinct) < limit:
-                scores_distinct.append(score)
-                scores_distinct_names.append(unique_id)
-        offset += limit
-        scores = scoresQuery.fetch(limit, offset)
-        if (len(scores) == 0) :
-            break
-    
-    return scores_distinct
+from com.gemserk.scores.model import score as scoreDao
 
 class Query(webapp.RequestHandler):  
     
@@ -74,7 +34,7 @@ class Query(webapp.RequestHandler):
         else:
             order = "-points"
             
-        scores = get_scores(game, range, tags, order, limit)
+        scores = scoreDao.get_scores(game, range, tags, order, limit)
 
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []
