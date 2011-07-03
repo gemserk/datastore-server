@@ -12,11 +12,30 @@ After that, open [Google App Angine][gae], login with a Google account and creat
 
 Finally, go to the datastore-server folder and upload the application following this [tutorial][gae-upload].
 
-Your application should be ready to be accessed by opening http://{your application id}.appspot.com
+Your application should be ready to be accessed by opening http://yourapplicationid.appspot.com
 
-Enjoy it.
+Congratulations, you have your Google App Engine high scores application ready :D
+
+Creating Games
+-------
+
+After the web application is installed, you will need to create a Game key to be used inside your game to identify it uniquely on datastore-server. 
+
+To do so, open your application at http://yourapplicationid.appspot.com, and Sign in with your google account. 
+
+Now, fill the new Game form by setting a key and a name. The key is a string, in our case we are creating it by calculating the md5sum of the game's name, for example, key = md5sum("Minecraft"), and name = Minecraft. Click submit and you will have a game created.
+
+Usage
+-------
+
+The application has different webservices, to simplify usage if you are using Java, there is a Java library named [datastore][datastore] which encapsulates all http requests through a simple API. 
+
+If you are using another language or want to access directly to those web services, you will have to wait we write a guide for them.
+
+TODO: Write docs specifying which web services exists and how to access them.
 
 [gae-sdk]: http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python
 [gae]: https://appengine.google.com/
 [gae-upload]: http://code.google.com/appengine/docs/python/gettingstarted/uploading.html
 [datastore-server]: git://github.com/gemserk/datastore-server.git
+[datastore]: https://github.com/gemserk/datastore
