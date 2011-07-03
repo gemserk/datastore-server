@@ -34,8 +34,14 @@ If you are using another language or want to access directly to those web servic
 
 TODO: Write docs specifying which web services exists and how to access them.
 
+Finally
+-------
+
+That's all for now, explore the API by yourself and propose improvements by suggesting new stuff on [Issues][issues] page.
+
 [gae-sdk]: http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python
 [gae]: https://appengine.google.com/
 [gae-upload]: http://code.google.com/appengine/docs/python/gettingstarted/uploading.html
 [datastore-server]: git://github.com/gemserk/datastore-server.git
 [datastore]: https://github.com/gemserk/datastore
+[issues]: https://github.com/gemserk/datastore-server/issues
