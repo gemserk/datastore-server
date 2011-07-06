@@ -25,8 +25,6 @@ class Score(db.Model):
 def get_scores(game, range, tags, order, limit, year, month, week, day, rangeNumber=None, distinct=True):
     scoresQuery = game.scores
     
-    # year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
-    
     if (range == "day"):
         if (rangeNumber is not 0):
             day = rangeNumber
