@@ -39,9 +39,11 @@ class Query(webapp.RequestHandler):
             order = "points"
         else:
             order = "-points"
-            
+        
+        rangeNumber  = self.request.get_range('rangeNumber')
+         
         year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
-        scores = scoreDao.get_scores(game, range, tags, order, limit, year, month, week, day, distinct)
+        scores = scoreDao.get_scores(game, range, tags, order, limit, year, month, week, day, rangeNumber, distinct)
 
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []

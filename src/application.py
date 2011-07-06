@@ -49,6 +49,8 @@ class MainPage(webapp.RequestHandler):
 class ShowGame(webapp.RequestHandler):
     
     def get(self):
+        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+        
         gameKey = cgi.escape(self.request.get('gameKey'))
         range = self.request.get('range')
         
@@ -62,8 +64,9 @@ class ShowGame(webapp.RequestHandler):
         
         # scores = game.scores
         
-        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
-        scores = scoreDao.get_scores(game, range, tags, "-points", limit, year, month, week, day, distinct)
+        rangeNumber  = self.request.get_range('rangeNumber')
+        
+        scores = scoreDao.get_scores(game, range, tags, "-points", limit, year, month, week, day, rangeNumber, distinct)
         
         template_values = {'game':game, 'scores':scores}
 

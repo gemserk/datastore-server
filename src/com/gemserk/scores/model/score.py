@@ -22,20 +22,26 @@ class Score(db.Model):
     week = db.IntegerProperty()
     day = db.IntegerProperty()
     
-def get_scores(game, range, tags, order, limit, year, month, week, day, distinct=True):
+def get_scores(game, range, tags, order, limit, year, month, week, day, rangeNumber=None, distinct=True):
     scoresQuery = game.scores
     
     # year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
     
     if (range == "day"):
+        if (rangeNumber is not 0):
+            day = rangeNumber
         scoresQuery.filter("year =", year)
         scoresQuery.filter("day =", day)
 
     if (range == "week"):
+        if (rangeNumber is not 0):
+            week = rangeNumber
         scoresQuery.filter("year =", year)
         scoresQuery.filter("week =", week)
 
     if (range == "month"):
+        if (rangeNumber is not 0):
+            month = rangeNumber
         scoresQuery.filter("year =", year)
         scoresQuery.filter("month =", month)
         
