@@ -8,9 +8,6 @@ from google.appengine.ext import db
 
 from game import Game
 
-from  com.gemserk.scores.utils import dateutils
-import datetime
-
 class Score(db.Model):
     game = db.ReferenceProperty(Game, collection_name="scores")
     tags = db.StringListProperty()
@@ -25,10 +22,10 @@ class Score(db.Model):
     week = db.IntegerProperty()
     day = db.IntegerProperty()
     
-def get_scores(game, range, tags, order, limit, distinct=True):
+def get_scores(game, range, tags, order, limit, year, month, week, day, distinct=True):
     scoresQuery = game.scores
     
-    year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+    # year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
     
     if (range == "day"):
         scoresQuery.filter("year =", year)

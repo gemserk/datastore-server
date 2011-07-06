@@ -14,6 +14,9 @@ from com.gemserk.scores.model.game import Game
 
 from com.gemserk.scores.model import score as scoreDao
 
+from  com.gemserk.scores.utils import dateutils
+import datetime
+
 class Query(webapp.RequestHandler):  
     
     def get(self):
@@ -37,7 +40,8 @@ class Query(webapp.RequestHandler):
         else:
             order = "-points"
             
-        scores = scoreDao.get_scores(game, range, tags, order, limit, distinct)
+        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+        scores = scoreDao.get_scores(game, range, tags, order, limit, year, month, week, day, distinct)
 
         self.response.headers['Content-Type'] = 'text/plain'
         scoreList = []

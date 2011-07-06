@@ -62,7 +62,8 @@ class ShowGame(webapp.RequestHandler):
         
         # scores = game.scores
         
-        scores = scoreDao.get_scores(game, range, tags, "-points", limit, distinct)
+        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+        scores = scoreDao.get_scores(game, range, tags, "-points", limit, year, month, week, day, distinct)
         
         template_values = {'game':game, 'scores':scores}
 
