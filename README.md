@@ -54,7 +54,7 @@ Game scores page, shows you all scores of one specific game, parameters:
 	gameKey 	- required - the key of the game.
 	tag* 		- optional - one tag the scores has to have in order to be listed, could be used multiple times.
 	distinct	- optional - filter one score per profile, true by default.
-	range 		- optional - day/week/month to request for daily/weekly/monthly scores respectively.
+	range 		- optional - day/week/month to request for daily/weekly/monthly scores respectively, all scores by default.
 	rangeNumber - optional - specify which day/week/month of the year, by default uses current day/week/month.
 
 Finally
