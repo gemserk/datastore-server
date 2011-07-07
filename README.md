@@ -40,11 +40,11 @@ Web Interface
 It also has some pages to help you manage the game scores, 
 
 
-- The main page which shows a list of games and lets you create new games, at `/`
+The main page which shows a list of games and lets you create new games, at `/`
 
-- Profiles page, shows you all registered profiles at `/profiles`
+Profiles page, shows you all registered profiles at `/profiles`
 
-- Game scores page, shows you all scores of one specific game, at `/game` with the following parameters:
+Game scores page, shows you all scores of one specific game, at `/game` with the following parameters:
 
 	gameKey 	- required - the key of the game.
 	tag* 		- optional - one tag the scores has to have in order to be listed, could be used multiple times.
