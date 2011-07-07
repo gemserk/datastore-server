@@ -34,6 +34,24 @@ If you are using another language or want to access directly to those web servic
 
 TODO: Write docs specifying which web services exists and how to access them.
 
+Web Interface
+-------
+
+It also has some pages to help you manage the game scores, 
+
+
+The main page which shows a list of games and lets you create new games, at `/`
+
+Profiles page, shows you all registered profiles at `/profiles`
+
+Game scores page, shows you all scores of one specific game, at `/game` with the following parameters:
+
+	gameKey 	- required - the key of the game.
+	tag* 		- optional - one tag the scores has to have in order to be listed, could be used multiple times.
+	distinct	- optional - filter one score per profile, true by default.
+	range 		- optional - day/week/month to request for daily/weekly/monthly scores respectively, all scores by default.
+	rangeNumber - optional - specify which day/week/month of the year, by default uses current day/week/month.
+
 Finally
 -------
 
