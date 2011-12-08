@@ -29,7 +29,7 @@ class RemoveDailyDuplicatedScores(webapp.RequestHandler):
             return
         
         tags = self.request.get_all('tag')        
-        limit = 100
+        limit = 1000
         
         order = "-points"
         

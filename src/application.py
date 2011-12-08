@@ -107,17 +107,20 @@ class InitDB(webapp.RequestHandler):
             days_before = myrandom.randint(0, 40)
             tags = []
             profile = profiles[myrandom.randint(0, len(profiles) - 1)]
-            self.score(newGame, profile, tags, points, datetime.datetime.today() - datetime.timedelta(days=days_before), profile)
+            name = profile
+            if (name == None):
+                name = "score-{0}".format(i)
+            self.score(newGame, name, tags, points, datetime.datetime.today() - datetime.timedelta(days=days_before), profile)
         
-#        self.score(newGame, "lastmonth-12341", ["hard"], 10000, datetime.datetime.today() - datetime.timedelta(days=40))
-#        self.score(newGame, "lastweek-15341", ["hard"], 15000, datetime.datetime.today() - datetime.timedelta(days=8))
-#        self.score(newGame, "yesterday-17341", [], 5000, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
-#        self.score(newGame, "yesterday-17341", ["hard"], 7500, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
-#        self.score(newGame, "yesterday-17341", [], 6500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
-#        self.score(newGame, "yesterday-17341", [], 5500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
-#        self.score(newGame, "yesterday-17341", [], 4500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
-#        self.score(newGame, "yesterday-17341", [], 2500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
-#        self.score(newGame, "today-17341", ["hard"], 3500, datetime.datetime.today())
+        #        self.score(newGame, "lastmonth-12341", ["hard"], 10000, datetime.datetime.today() - datetime.timedelta(days=40))
+        #        self.score(newGame, "lastweek-15341", ["hard"], 15000, datetime.datetime.today() - datetime.timedelta(days=8))
+        #        self.score(newGame, "yesterday-17341", [], 5000, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
+        #        self.score(newGame, "yesterday-17341", ["hard"], 7500, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
+        #        self.score(newGame, "yesterday-17341", [], 6500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
+        #        self.score(newGame, "yesterday-17341", [], 5500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
+        #        self.score(newGame, "yesterday-17341", [], 4500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
+        #        self.score(newGame, "yesterday-17341", [], 2500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
+        #        self.score(newGame, "today-17341", ["hard"], 3500, datetime.datetime.today())
         
         self.response.headers['Content-Type'] = 'text/plain'        
         self.response.out.write("OK") 
