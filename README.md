@@ -21,7 +21,7 @@ Creating Games
 
 After the web application is installed, you will need to create a Game key to be used inside your game to identify it uniquely on datastore-server. 
 
-To do so, open your application at http://yourapplicationid.appspot.com, and Sign in with your google account. 
+To do so, open your application at http://yourapplicationid.appspot.com, and Sign in with your Google account. 
 
 Now, fill the new Game form by setting a key and a name. The key is a string, in our case we are creating it by calculating the md5sum of the game's name, for example, key = md5sum("Minecraft"), and name = Minecraft. Click submit and you will have a game created.
 
@@ -55,7 +55,7 @@ Game scores page, shows you all scores of one specific game, at `/game` with the
 Finally
 -------
 
-That's all for now, explore the API by yourself and propose improvements by suggesting new stuff on [Issues][issues] page.
+That's all for now, explore the API by yourself and feel free to suggest enhancements and or bugs in the [Issues][issues] page.
 
 [gae-sdk]: http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python
 [gae]: https://appengine.google.com/
