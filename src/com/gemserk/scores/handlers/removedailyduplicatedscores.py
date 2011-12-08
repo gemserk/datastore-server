@@ -54,7 +54,6 @@ class RemoveScoresForDayWorker(webapp.RequestHandler):
                     scores_unique.append(score)
                     scores_distinct_names.append(unique_id)
                 else:
-                    # taskqueue.add(url='/removeScore', params={'key': score.key})
                     score.delete()
             offset += limit
             scores = scoresQuery.fetch(limit, offset)

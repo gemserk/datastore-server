@@ -20,7 +20,7 @@ from com.gemserk.scores.handlers.newgame import NewGame
 from com.gemserk.scores.handlers.newprofile import NewProfile
 from com.gemserk.scores.handlers.updateprofile import UpdateProfile
 from com.gemserk.scores.handlers.removedailyduplicatedscores import RemoveDailyDuplicatedScores,\
-    RemoveScoreWorker, RemoveScoresForDayWorker
+    RemoveScoresForDayWorker
 from com.gemserk.scores.model.profile import Profile
 
 from com.gemserk.scores.utils import dateutils
