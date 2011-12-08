@@ -30,10 +30,9 @@ class SubmitScore(webapp.RequestHandler):
         score.tags = self.request.get_all('tag')
         score.points = self.request.get_range('points')
         score.data = cgi.escape(self.request.get('data'))
-        score.profilePublicKey = None
+        score.profilePublicKey = self.request.get('profilePublicKey', None)
         
         profilePrivateKey = self.request.get('profilePrivateKey', None)
-
         
         if (profilePrivateKey <> None):
             profilePrivateKey = cgi.escape(profilePrivateKey)
