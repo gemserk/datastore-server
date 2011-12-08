@@ -15,18 +15,22 @@ from google.appengine.api import taskqueue
 import datetime
         
 class RemoveScoresForDayWorker(webapp.RequestHandler):
+    def get(self):
+        self.post()
+        
     def post(self): # should run at most 1/s
         
         gameKey = cgi.escape(self.request.get('gameKey'))
         game = Game.all().filter("gameKey =", gameKey).get()
         
         if(not game):
+            self.response.set_status(500, message="Can't find game with key " + gameKey)
             return
         
-        year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
+        year, month, week, today = dateutils.get_datetime_data(datetime.datetime.now())
         
         tags = self.request.get_all('tag')
-        day  = self.request.get('day')              
+        day  = self.request.get_range('day')              
         limit = 1000
             
         scoresQuery = game.scores
@@ -57,6 +61,10 @@ class RemoveScoresForDayWorker(webapp.RequestHandler):
                     score.delete()
             offset += limit
             scores = scoresQuery.fetch(limit, offset)
+            
+        
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.out.write('OK')
                 
 
 class RemoveDailyDuplicatedScores(webapp.RequestHandler):  
@@ -78,7 +86,7 @@ class RemoveDailyDuplicatedScores(webapp.RequestHandler):
         year, month, week, today = dateutils.get_datetime_data(datetime.datetime.now())
 
         for day in range(today + 1):
-            taskqueue.add(url='/removeScoresForDay', params={'gameKey': gameKey, 'tag': tags, 'day' : day})
+            taskqueue.add(url='/removeScoresForDay', params={'gameKey': self.request.get('gameKey'), 'tag': tags, 'day' : day})
             
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.out.write('OK - Tasks to remove scores for each day enqueued')

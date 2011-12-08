@@ -17,5 +17,9 @@ handlers:
   login: admin
   script: application.py
 
+- url: /removeScoresForDay
+  login: admin
+  script: application.py
+  
 - url: /.*
   script: application.py
