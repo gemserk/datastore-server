@@ -25,11 +25,13 @@ class SubmitScore(webapp.RequestHandler):
             self.response.set_status(500,message="Can't find game with key " + gameKey)
             return
         
+        currentTime = datetime.datetime.now()
+        
         score = Score()
         score.name = cgi.escape(self.request.get('name'))
         score.tags = self.request.get_all('tag')
         score.points = self.request.get_range('points')
-        score.data = cgi.escape(self.request.get('data'))
+        score.data = cgi.escape(self.request.get('data', '{}'))
         score.profilePublicKey = self.request.get('profilePublicKey', None)
         
         profilePrivateKey = self.request.get('profilePrivateKey', None)
@@ -42,13 +44,13 @@ class SubmitScore(webapp.RequestHandler):
                 score.profilePublicKey = profile.publicKey
                 score.name = profile.name
                 # update profile last access time
-                profile.lastAccess = datetime.datetime.now()
+                profile.lastAccess = currentTime
                 profile.put()
             else:
                 self.response.set_status(500,message="Can't find profile to submit score")
                 return
             
-        score.year, score.month, score.week, score.day = dateutils.get_datetime_data(datetime.datetime.now())
+        score.year, score.month, score.week, score.day = dateutils.get_datetime_data(currentTime)
             
         score.game = game
         score.put()
