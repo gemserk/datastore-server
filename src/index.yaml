@@ -21,6 +21,15 @@ indexes:
   properties:
   - name: day
   - name: game
+  - name: tags
+  - name: year
+  - name: points
+    direction: desc
+
+- kind: Score
+  properties:
+  - name: day
+  - name: game
   - name: year
   - name: points
 

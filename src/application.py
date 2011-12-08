@@ -19,6 +19,7 @@ from com.gemserk.scores.handlers.query import Query
 from com.gemserk.scores.handlers.newgame import NewGame
 from com.gemserk.scores.handlers.newprofile import NewProfile
 from com.gemserk.scores.handlers.updateprofile import UpdateProfile
+from com.gemserk.scores.handlers.removedailyduplicatedscores import RemoveDailyDuplicatedScores
 from com.gemserk.scores.model.profile import Profile
 
 from com.gemserk.scores.utils import dateutils
@@ -76,10 +77,12 @@ class ShowGame(webapp.RequestHandler):
      
 class InitDB(webapp.RequestHandler):
     
-    def score(self, game, name, tags, points, datetime):
+    def score(self, game, name, tags, points, datetime, profilePublicKey = None):
         score = Score()
         score.game = game
         score.name = name
+        if (profilePublicKey <> None):
+            score.profilePublicKey = profilePublicKey
         score.points = points
         score.tags = tags
         score.data = "{}"
@@ -96,9 +99,9 @@ class InitDB(webapp.RequestHandler):
         
         self.score(newGame, "lastmonth-12341", ["hard"], 10000, datetime.datetime.today() - datetime.timedelta(days=40))
         self.score(newGame, "lastweek-15341", ["hard"], 15000, datetime.datetime.today() - datetime.timedelta(days=8))
-        self.score(newGame, "yesterday-17341", [], 5000, datetime.datetime.today() - datetime.timedelta(days=2))
-        self.score(newGame, "yesterday-17341", ["hard"], 7500, datetime.datetime.today() - datetime.timedelta(days=2))
-        self.score(newGame, "yesterday-17341", [], 6500, datetime.datetime.today() - datetime.timedelta(days=1))
+        self.score(newGame, "yesterday-17341", [], 5000, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
+        self.score(newGame, "yesterday-17341", ["hard"], 7500, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
+        self.score(newGame, "yesterday-17341", [], 6500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
         self.score(newGame, "today-17341", ["hard"], 3500, datetime.datetime.today())
         
         self.response.headers['Content-Type'] = 'text/plain'        
@@ -147,6 +150,7 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ("/newProfile", NewProfile),
                                       ("/updateProfile", UpdateProfile),
                                       ("/updateScores", GenerateDateDateForScores),
+                                      ("/removeDuplicatedDailyScores", RemoveDailyDuplicatedScores),
                                       ], debug=True)
 
 def main():

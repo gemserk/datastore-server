@@ -12,6 +12,10 @@ handlers:
 - url: /updateScores
   login: admin
   script: application.py
+  
+- url: /removeDuplicatedDailyScores
+  login: admin
+  script: application.py
 
 - url: /.*
   script: application.py
