@@ -102,6 +102,9 @@ class InitDB(webapp.RequestHandler):
         self.score(newGame, "yesterday-17341", [], 5000, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
         self.score(newGame, "yesterday-17341", ["hard"], 7500, datetime.datetime.today() - datetime.timedelta(days=2), "123123145")
         self.score(newGame, "yesterday-17341", [], 6500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
+        self.score(newGame, "yesterday-17341", [], 5500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
+        self.score(newGame, "yesterday-17341", [], 4500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
+        self.score(newGame, "yesterday-17341", [], 2500, datetime.datetime.today() - datetime.timedelta(days=1), "123123145")
         self.score(newGame, "today-17341", ["hard"], 3500, datetime.datetime.today())
         
         self.response.headers['Content-Type'] = 'text/plain'        

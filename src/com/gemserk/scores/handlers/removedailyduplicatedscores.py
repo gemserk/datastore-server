@@ -33,39 +33,38 @@ class RemoveDailyDuplicatedScores(webapp.RequestHandler):
         
         order = "-points"
         
-        rangeNumber = self.request.get_range('rangeNumber')
-         
         year, month, week, day = dateutils.get_datetime_data(datetime.datetime.now())
 
-        scoresQuery = game.scores
+        for day in range(366):
+            scoresQuery = game.scores
+                
+            scoresQuery.filter("year =", year)
+            scoresQuery.filter("day =", day)
+                
+            for tag in tags:
+                scoresQuery.filter("tags =", tag)
+                
+            scoresQuery = scoresQuery.order(order)
             
-        scoresQuery.filter("year =", year)
-        scoresQuery.filter("day =", rangeNumber)
+            scores = scoresQuery.fetch(limit)
             
-        for tag in tags:
-            scoresQuery.filter("tags =", tag)
+            scores_distinct_names = []
+            scores_unique = []
             
-        scoresQuery = scoresQuery.order(order)
-        
-        scores = scoresQuery.fetch(limit)
-        
-        scores_distinct_names = []
-        scores_unique = []
-        
-        # scores_remove = []
-
-        offset = 0;
-        while (len(scores) > 0):
-            for score in scores:
-                unique_id = score.profilePublicKey if (score.profilePublicKey != None) else score.name
-                if unique_id not in scores_distinct_names:
-                    scores_unique.append(score)
-                    scores_distinct_names.append(unique_id)
-                else:
-                    score.delete()
-                    # scores_remove.append(score)
-            offset += limit
-            scores = scoresQuery.fetch(limit, offset)
+            # scores_remove = []
+    
+            offset = 0;
+            while (len(scores) > 0):
+                for score in scores:
+                    unique_id = score.profilePublicKey if (score.profilePublicKey != None) else score.name
+                    if unique_id not in scores_distinct_names:
+                        scores_unique.append(score)
+                        scores_distinct_names.append(unique_id)
+                    else:
+                        score.delete()
+                        # scores_remove.append(score)
+                offset += limit
+                scores = scoresQuery.fetch(limit, offset)
             
         # game.scores.remove(scores_remove)
     
