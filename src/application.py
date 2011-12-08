@@ -19,7 +19,8 @@ from com.gemserk.scores.handlers.query import Query
 from com.gemserk.scores.handlers.newgame import NewGame
 from com.gemserk.scores.handlers.newprofile import NewProfile
 from com.gemserk.scores.handlers.updateprofile import UpdateProfile
-from com.gemserk.scores.handlers.removedailyduplicatedscores import RemoveDailyDuplicatedScores
+from com.gemserk.scores.handlers.removedailyduplicatedscores import RemoveDailyDuplicatedScores,\
+    RemoveScoreWorker, RemoveScoresForDayWorker
 from com.gemserk.scores.model.profile import Profile
 
 from com.gemserk.scores.utils import dateutils
@@ -169,6 +170,7 @@ application = webapp.WSGIApplication([('/', MainPage),
                                       ("/updateProfile", UpdateProfile),
                                       ("/updateScores", GenerateDateDateForScores),
                                       ("/removeDuplicatedDailyScores", RemoveDailyDuplicatedScores),
+                                      ("/removeScoresForDay", RemoveScoresForDayWorker),
                                       ], debug=True)
 
 def main():
